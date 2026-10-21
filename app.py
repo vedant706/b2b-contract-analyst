@@ -1,7 +1,7 @@
 import streamlit as st
-import base64
 import os
 from pipeline import ingest_pdf, get_rag_chain, auto_extract_metrics
+from streamlit_pdf_viewer import pdf_viewer
 
 st.set_page_config(
     page_title="B2B Contract Analyst", 
@@ -69,10 +69,8 @@ custom_css = """
 st.markdown(custom_css, unsafe_allow_html=True)
 
 def display_pdf(file_path):
-    with open(file_path, "rb") as f:
-        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
-    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="750" type="application/pdf" style="border-radius: 12px; border: 1px solid #CBD5E1; box-shadow: 0 4px 6px rgba(0,0,0,0.05);"></iframe>'
-    st.markdown(pdf_display, unsafe_allow_html=True)
+    # We replaced the blocked base64 iframe with this native component!
+    pdf_viewer(file_path, width=700, height=750)
 
 with st.sidebar:
     st.title("⚖️ Workspace")
